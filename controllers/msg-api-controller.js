@@ -1,6 +1,11 @@
+let messages = []
 // GET Request Handler
 const getAllMessages = (req, res) => {
-    res.status(200).send('Successful API GET Request');
+    try {
+        res.status(200).json(messages);
+    } catch (err) {
+        res.status(400).send('Unknown Error');
+    }
 };
 // POST Request Handler
 const addNewMessage = (req, res) => {
