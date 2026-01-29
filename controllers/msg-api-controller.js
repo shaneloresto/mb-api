@@ -1,5 +1,5 @@
 import messageSchema from '../models/message-schema.js';
-let messages = []
+const messages = []
 // GET Request Handler
 const getAllMessages = (req, res) => {
     try {
@@ -32,11 +32,12 @@ const updateAMessage = (req, res) => {
 }
 // DELETE
 const deleteAMessage = (req, res) => {
-    let foundMessage = messages.find(message => req.params.id === message.id);
-    if (foundMessage === -1) {
-        return res.sendStatus(404);
+    // 1. Find the index of the message
+    const index = messages.findIndex(message => String(message.id) === req.params.id);
+    if (index === -1) {
+        res.sendStatus(404);
     }
     messages.splice(index, 1);
-    res.sendStatus(204)
+    res.sendStatus(204);
 }
 export default { getAllMessages, addNewMessage, updateAMessage, deleteAMessage };
