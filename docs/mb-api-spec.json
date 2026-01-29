@@ -42,9 +42,9 @@
                         ],
                         "properties": {
                             "id": {
-                            "type": "string",
-                            "description": "message's id.",
-                            "example": "f37d"
+                                "type": "string",
+                                "description": "message's id.",
+                                "example": "f37d"
                             }
                         }
                     }

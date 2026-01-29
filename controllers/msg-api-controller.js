@@ -1,3 +1,4 @@
+import messageSchema from '../models/message-schema.js';
 let messages = []
 // GET Request Handler
 const getAllMessages = (req, res) => {
@@ -9,6 +10,33 @@ const getAllMessages = (req, res) => {
 };
 // POST Request Handler
 const addNewMessage = (req, res) => {
-    res.status(200).send('Successful API POST Request');
+    //res.status(200).send('Successful API POST Request');
+    try {
+        let message = messageSchema.parse(req.body);
+        message.id = `${messages.length}`;
+        messages.unshift(message);
+        res.status(201).json(message);
+        console.log(messages);
+    } catch (err) {
+        res.status(400).send('Bad Request. The message in the body of the \ Request is either missing or malformed.');
+    }
 };
-export default { getAllMessages, addNewMessage };
+// PATCH
+const updateAMessage = (req, res) => {
+    let foundMessage = messages.find(message => req.params.id === message.id);
+    if (!foundMessage) {
+        return res.sendStatus(404);
+    }
+    foundMessage.text = req.body.text;
+    res.sendStatus(204);
+}
+// DELETE
+const deleteAMessage = (req, res) => {
+    let foundMessage = messages.find(message => req.params.id === message.id);
+    if (foundMessage === -1) {
+        return res.sendStatus(404);
+    }
+    messages.splice(index, 1);
+    res.sendStatus(204)
+}
+export default { getAllMessages, addNewMessage, updateAMessage, deleteAMessage };
