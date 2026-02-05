@@ -12,14 +12,14 @@ const getAllMessages = async (req, res) => {
     }
 };
 // POST Request Handler
-const addNewMessage = (req, res) => {
+const addNewMessage = async (req, res) => {
     //res.status(200).send('Successful API POST Request');
     try {
-        let message = messageSchema.parse(req.body);
-        message.id = `${messages.length}`;
-        messages.unshift(message);
+        let message = await messageModel.create(req.body);
+        // let message = messageSchema.parse(req.body);
+        // message.id = `${messages.length}`;
+        // messages.unshift(message);
         res.status(201).json(message);
-        console.log(messages);
     } catch (err) {
         res.status(400).send('Bad Request. The message in the body of the \ Request is either missing or malformed.');
     }
