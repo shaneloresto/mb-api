@@ -1,8 +1,11 @@
 import messageSchema from '../models/message-schema.js';
-const messages = []
+import mongoose from 'mongoose';
+const messageModel = mongoose.model('message');
+// const messages = []
 // GET Request Handler
-const getAllMessages = (req, res) => {
+const getAllMessages = async (req, res) => {
     try {
+        let messages = await messageModel.find({}, '', { sort: { _id: -1 } }).exec();
         res.status(200).json(messages);
     } catch (err) {
         res.status(400).send('Unknown Error');
