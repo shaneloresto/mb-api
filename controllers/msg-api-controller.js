@@ -40,13 +40,23 @@ const updateAMessage = async (req, res) => {
     }
 }
 // DELETE
-const deleteAMessage = (req, res) => {
+const deleteAMessage = async (req, res) => {
     // 1. Find the index of the message
-    const index = messages.findIndex(message => String(message.id) === req.params.id);
-    if (index === -1) {
-        res.sendStatus(404);
+    // const index = messages.findIndex(message => String(message.id) === req.params.id);
+    // if (index === -1) {
+    //     res.sendStatus(404);
+    // }
+    // messages.splice(index, 1);
+    // res.sendStatus(204);
+    try {
+        let message = await messageModel.findById(req.params.id).exec();
+        if (!message) {
+            return res.sendStatus(404);
+        }
+        await message.deleteOne()
+        res.sendStatus(204);
+    } catch (err) {
+        res.status(400).send('Bad Request. The message in the body of the \ Request is either missing or malformed.');
     }
-    messages.splice(index, 1);
-    res.sendStatus(204);
 }
 export default { getAllMessages, addNewMessage, updateAMessage, deleteAMessage };
