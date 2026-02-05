@@ -15,23 +15,29 @@ const getAllMessages = async (req, res) => {
 const addNewMessage = async (req, res) => {
     //res.status(200).send('Successful API POST Request');
     try {
-        let message = await messageModel.create(req.body);
         // let message = messageSchema.parse(req.body);
         // message.id = `${messages.length}`;
         // messages.unshift(message);
+        let message = await messageModel.create(req.body);
         res.status(201).json(message);
     } catch (err) {
         res.status(400).send('Bad Request. The message in the body of the \ Request is either missing or malformed.');
     }
 };
 // PATCH
-const updateAMessage = (req, res) => {
-    let foundMessage = messages.find(message => req.params.id === message.id);
-    if (!foundMessage) {
-        return res.sendStatus(404);
+const updateAMessage = async (req, res) => {
+    // let foundMessage = messages.find(message => req.params.id === message.id);
+    try {
+        let message = await messageModel.findById(req.params.id).exec();
+        if (!message) {
+            return res.sendStatus(404);
+        }
+        message.text = req.body.text;
+        await message.save()
+        res.sendStatus(204);
+    } catch (err) {
+        res.status(400).send('Bad Request. The message in the body of the \ Request is either missing or malformed.');
     }
-    foundMessage.text = req.body.text;
-    res.sendStatus(204);
 }
 // DELETE
 const deleteAMessage = (req, res) => {
