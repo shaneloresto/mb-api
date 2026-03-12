@@ -4,6 +4,11 @@ import compression from 'compression';
 import morgan from 'morgan';
 import cors from 'cors';
 import apiRouter from './routes/api-router.js';
+import rateLimit from 'express-rate-limit';
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 10, // Limit each IP to 10 requests per `window` (here, per minute)
+});
 // mongodb connection via mongoose
 import './db.js';
 const app = express();
@@ -13,6 +18,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(limiter);
 // Routing
 app.get('/', (req, res) => {
     res.send('Node.js Server is live!');
