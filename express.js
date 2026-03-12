@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import apiRouter from './routes/api-router.js';
 import rateLimit from 'express-rate-limit';
+import passport from 'passport';
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
     max: 10, // Limit each IP to 10 requests per `window` (here, per minute)
@@ -19,6 +20,7 @@ app.use(compression());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(limiter);
+app.use(passport.initialize());
 // Routing
 app.get('/', (req, res) => {
     res.send('Node.js Server is live!');
