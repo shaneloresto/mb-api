@@ -11,4 +11,6 @@ router.route('/users')
 router.route('/messages/:id')
 .patch(msgAPIController.updateAMessage)
 .delete(msgAPIController.deleteAMessage);
+router.route('/login')
+.post(userAPIController.logInUser);
 export default router;

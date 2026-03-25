@@ -61,5 +61,9 @@ passport.use(new BasicStrategy(
         }
     }
 ));
-const userAPIController = { registerNewUser };
+// Login Handler
+const logInUser = (req, res) => {
+    res.status(200).send('Successful API Login Request');
+};
+const userAPIController = { registerNewUser, logInUser };
 export default userAPIController;

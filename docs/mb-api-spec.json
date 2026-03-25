@@ -298,6 +298,66 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "summary": "User login",
+                "description": "Authenticates a user using username or email and password.",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["userIdent", "password"],
+                                "properties": {
+                                    "userIdent": {
+                                        "type": "string",
+                                        "maxLength": 50,
+                                        "description": "Username or email used to log in.",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "maxLength": 64,
+                                        "format": "password",
+                                        "description": "User account password.",
+                                        "example": "MySecurePassword123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged in.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "JWT Token",
+                                    "properties": {
+                                        "token": {
+                                        "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (missing or invalid fields)."
+                    },
+                    "401": {
+                        "description": "Username or password don't match."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
         }
     }
 }
