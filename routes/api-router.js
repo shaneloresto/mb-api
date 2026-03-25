@@ -5,12 +5,12 @@ import passport from 'passport';
 const router = express.Router();
 router.route('/messages')
 .get(msgAPIController.getAllMessages)
-.post(passport.authenticate('basic', { session: false }), msgAPIController.addNewMessage);
+.post(passport.authenticate('local', { session: false }), msgAPIController.addNewMessage);
 router.route('/users')
 .post(userAPIController.registerNewUser);
 router.route('/messages/:id')
 .patch(msgAPIController.updateAMessage)
 .delete(msgAPIController.deleteAMessage);
 router.route('/login')
-.post(userAPIController.logInUser);
+.post(passport.authenticate('local', { session: false }), userAPIController.logInUser);
 export default router;

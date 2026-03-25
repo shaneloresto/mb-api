@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import '../models/user-schema.js';
 import passport from 'passport';
-import { BasicStrategy } from 'passport-http';
+import LocalStrategy from 'passport-local';
 const userModel = mongoose.model('user');
 const registerNewUser = async (req, res) => {
     try {
@@ -37,7 +37,7 @@ const alreadyExists = async ( email, username ) => (
         ]
     })
 );
-passport.use(new BasicStrategy(
+passport.use(new LocalStrategy(
     async (userIdent, password, done) => {
         try {
             const user = await userModel.findOne({
