@@ -1,3 +1,4 @@
+import 'dotenv/config.js';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
