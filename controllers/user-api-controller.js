@@ -3,6 +3,10 @@ import '../models/user-schema.js';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import jwt from 'jsonwebtoken';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+let jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
 const userModel = mongoose.model('user');
 const registerNewUser = async (req, res) => {
     try {
@@ -78,5 +82,12 @@ const logInUser = (req, res) => {
         }
     );
 };
+// Configure JWT Token Auth
+passport.use(new JwtStrategy(
+    jwtOptions, (jwt_payload, done) => {
+        const user = { userID: jwt_payload.sub, username: jwt_payload.username };
+        return done(null, user);
+    }
+));
 const userAPIController = { registerNewUser, logInUser };
 export default userAPIController;
