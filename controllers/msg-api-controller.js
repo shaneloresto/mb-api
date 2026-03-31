@@ -32,6 +32,9 @@ const updateAMessage = async (req, res) => {
         if (!message) {
             return res.sendStatus(404);
         }
+        if (message.owner !== req.user.username) {
+            return res.sendStatus(403);
+        }
         message.text = req.body.text;
         await message.save()
         res.sendStatus(204);
@@ -52,6 +55,9 @@ const deleteAMessage = async (req, res) => {
         let message = await messageModel.findById(req.params.id).exec();
         if (!message) {
             return res.sendStatus(404);
+        }
+        if (message.owner !== req.user.username) {
+            return res.sendStatus(403);
         }
         await message.deleteOne()
         res.sendStatus(204);
