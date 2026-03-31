@@ -28,7 +28,8 @@
                 "type": "object",
                 "description": "A message",
                 "required": [
-                    "text"
+                    "text",
+                    "owner"
                 ],
                 "properties": {
                     "text": {
@@ -37,6 +38,14 @@
                         "maxLength": 30,
                         "description": "A message's text.",
                         "example": "Hello World!"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 15,
+                        "pattern": "^[A-Za-z][A-Za-z0-9-_]+$",
+                        "description": "A registered user's username that owns the message",
+                        "example": "fred"
                     }
                 }
             },
@@ -234,6 +243,9 @@
                     "400": {
                         "description": "Bad Request"
                     },
+                    "403": {
+                        "description": "Forbidden"
+                    },
                     "404": {
                         "description": "Not Found"
                     },
@@ -262,6 +274,9 @@
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     },
                     "404": {
                         "description": "Not Found"

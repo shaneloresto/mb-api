@@ -18,6 +18,13 @@ const messageSchema = new mongoose.Schema({
         trim: true,
         minLength: 3,
         maxLength: 30
+    },
+    owner: {
+        type: String,
+        required: true,
+        match: /^[A-Za-z][A-Za-z0-9-_]+$/,
+        minLength: 3,
+        maxLength: 15
     }
 });
 messageSchema.set('toJSON', {
