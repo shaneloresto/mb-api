@@ -9,8 +9,8 @@ router.route('/messages')
 router.route('/users')
 .post(userAPIController.registerNewUser);
 router.route('/messages/:id')
-.patch(msgAPIController.updateAMessage)
-.delete(msgAPIController.deleteAMessage);
+.patch(passport.authenticate('jwt', { session: false }), msgAPIController.updateAMessage)
+.delete(passport.authenticate('jwt', { session: false }), msgAPIController.deleteAMessage);
 router.route('/login')
 .post(passport.authenticate('local', { session: false }), userAPIController.logInUser);
 export default router;
