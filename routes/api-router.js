@@ -11,6 +11,6 @@ router.route('/users')
 router.route('/messages/:id')
 .patch(passport.authenticate('jwt', { session: false }), msgAPIController.updateAMessage)
 .delete(passport.authenticate('jwt', { session: false }), msgAPIController.deleteAMessage);
-router.route('/login')
+router.route(['/login', '/auth/login'])
 .post(passport.authenticate('local', { session: false }), userAPIController.logInUser);
 export default router;
